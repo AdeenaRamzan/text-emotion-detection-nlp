@@ -11,31 +11,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Apply dark theme
-st.markdown("""
-<style>
-    .stApp {
-        background-color: #0E1117;
-        color: #FAFAFA;
-    }
-    .stTextInput>div>div>input, .stTextArea>div>div>textarea {
-        background-color: #262730;
-        color: #FAFAFA;
-    }
-    .emoji-fall {
-        position: fixed;
-        top: -50px;
-        font-size: 24px;
-        z-index: 100;
-        animation: fall linear forwards;
-    }
-    @keyframes fall {
-        to {
-            transform: translateY(100vh);
-        }
-    }
-</style>
-""", unsafe_allow_html=True)
 
 @st.cache_resource(show_spinner="Loading emotion detection model...")
 def load_model():
