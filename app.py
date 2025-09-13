@@ -37,15 +37,13 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-@st.cache_resource(show_spinner="Loading emotion detection model...")
+@st.cache_resource
 def load_model():
     model = joblib.load('final_text_classifier.pkl')
     vectorizer = joblib.load('tfidf_vectorizer.pkl')
     return model, vectorizer
 
-# Show loading spinner while model loads
-with st.spinner('Loading emotion detection model...'):
-    model, vectorizer = load_model()
+model, vectorizer = load_model()
 
 emoji_mapping = {
     0: "😢",
@@ -114,14 +112,12 @@ if st.button("Analyze Emotion"):
         # Set flag to show emojis
         st.session_state.show_emojis = True
         
-        # Show processing spinner
-        with st.spinner('Analyzing emotions...'):
-            # Process the text
-            text_tfidf = vectorizer.transform([user_input])
-            prediction = model.predict(text_tfidf)
-            predicted_class = prediction[0]
-            emoji = emoji_mapping.get(predicted_class, "❓")
-            emotion_name = emotion_names.get(predicted_class, "Unknown")
+        # Process the text
+        text_tfidf = vectorizer.transform([user_input])
+        prediction = model.predict(text_tfidf)
+        predicted_class = prediction[0]
+        emoji = emoji_mapping.get(predicted_class, "❓")
+        emotion_name = emotion_names.get(predicted_class, "Unknown")
         
         # Create a placeholder for the falling emojis
         emoji_placeholder = st.empty()
